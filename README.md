@@ -1,71 +1,55 @@
-# kafka_python_
-#from windows: open kafka folder:
-     Required Commands:
+To run Kafka using the Command Prompt (CMD) in Windows, you need to execute a few commands in the correct order. Here are the steps to run Kafka:
 
-          .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+1.Start ZooKeeper:
 
-          .\bin\windows\kafka-server-start.bat .\config\server.properties
+  Open a new Command Prompt window.
+  Navigate to the Kafka installation directory.
+  Run the following command to start ZooKeeper:
+  arduino
+  Copy code:
+             .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+2.Start Kafka server:
 
-#if you want to run on ec2 then:
-           1. wget https://downloads.apache.org/kafka/3.4.0/kafka_2.13-3.4.0.tgz
-           2. tar -xvf kafka_2.13-3.4.0.tgz
+  Open another Command Prompt window.
+  Navigate to the Kafka installation directory.
+  Run the following command to start the Kafka server:
+  arduino
+  Copy code:
+           .\bin\windows\kafka-server-start.bat .\config\server.properties
+3.Create a topic (optional):
 
-           3.--------------------------------------------------
-            java -version
-            sudo yum update
-            sudo yum install java-1.8.0
-            #sudo yum install java-1.8.0-openjdk
-            java -version
-            cd kafka_2.13-3.4.0
+  Open a new Command Prompt window.
+  Navigate to the Kafka installation directory.
+  Run the following command to create a topic:
 
+  Copy code:
+           .\bin\windows\kafka-topics.bat --create --topic my-topic --bootstrap-server 10.1.1.109:9092 --partitions 1 --replication-factor 1
+  Replace "my-topic" with the desired topic name.
 
+4.Produce messages (optional):
 
-------------------------------------
-#same for both loacal as well as on ec2
-     -------------------------------
-           Start Zoo-keeper:
-      -------------------------------
-                  bin/zookeeper-server-start.sh config/zookeeper.properties
+  Open a new Command Prompt window.
+  Navigate to the Kafka installation directory.
+  Run the following command to produce messages to the topic:
+  Copy code:
+           .\bin\windows\kafka-console-producer.bat --topic my-topic --bootstrap-server 10.1.1.109:9092
 
-#Open another window to start kafka
-                    But first ssh to to your ec2 machine as done above
+Replace "my-topic" with the desired topic name. You can then type messages that will be sent to the Kafka topic.
 
-------------------------------------------
-            Start Kafka-server:
-----------------------------------------
-#Duplicate the session & enter in a new WINDOW --
-                    CONNECT TO EC2 INSTANCE BY SSH....... KEY
- #WILL ALLOCATE SOME AMOUNT OF MEMORY TO KAFKA SERVER
-              export KAFKA_HEAP_OPTS="-Xmx256M -Xms128M"
-              cd kafka_2.13-3.4.0
-              bin/kafka-server-start.sh config/server.properties
+5.Consume messages (optional):
 
-It is pointing to private server , change server.properties so that it can run in public IP 
+  Open another Command Prompt window.
+  Navigate to the Kafka installation directory.
+  Run the following command to consume messages from the topic:
+  Copy code:
+            .\bin\windows\kafka-console-consumer.bat --topic my-topic --bootstrap-server 10.1.1.109:9092 --from-beginning
+Replace "my-topic" with the desired topic name. You will see the messages produced in step 4 being consumed and displayed in the console.
 
-To do this , you can follow any of the 2 approaches shared belwo --
-Do a "sudo nano config/server.properties" - change ADVERTISED_LISTENERS to public ip of the EC2 instance
+These commands assume you have installed Kafka and its dependencies correctly. Adjust the paths if your Kafka installation is in a different directory. Additionally, make sure to adjust topic names and other parameters as per your requirements.
 
------------------------------------------------
-Create the topic:
------------------------------
-          Duplicate the session & enter in a new console --
-          cd kafka_2.12-3.3.1
-          bin/kafka-topics.sh --create --topic demo_testing2 --bootstrap-server {Put the Public IP or your EC2 Instance:9092} --replication-factor 1 --partitions 1
-
-----------------------------
-Start Producer:
---------------------------
-         bin/kafka-console-producer.sh --topic demo_test --bootstrap-server {Put the Public IP of your EC2 Instance:9092} 
+By following these steps, you can run Kafka using the Command Prompt in Windows and perform basic operations like starting Kafka, creating topics, and producing/consuming messages.
 
 
-
-
----------------------------------------
-Start Consumer:
--------------------------
-Duplicate the session & enter in a new console --
-cd kafka_2.12-3.3.1
-bin/kafka-console-consumer.sh --topic demo_test --bootstrap-server {Put the Public IP or your EC2 Instance:9092}
 
 
 
